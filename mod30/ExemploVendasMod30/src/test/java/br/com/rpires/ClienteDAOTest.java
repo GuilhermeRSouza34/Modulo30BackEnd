@@ -166,4 +166,26 @@ public class ClienteDAOTest {
 
 	private void assertTrue(boolean b) {
 	}
+
+	@Test
+	public void testarEstadoCivil() throws TipoChaveNaoEncontradaException, MaisDeUmRegistroException, TableException, DAOException {
+		Cliente cliente = new Cliente();
+		cliente.setCpf(12345678901L);
+		cliente.setNome("Fulano");
+		cliente.setCidade("São Paulo");
+		cliente.setEnd("Rua das Flores");
+		cliente.setEstado("SP");
+		cliente.setNumero(100);
+		cliente.setTel(11987654321L);
+		cliente.setEstadoCivil("Casado"); // Definindo estado civil
+
+		Boolean retorno = clienteDao.cadastrar(cliente);
+		Assert.assertTrue(retorno);
+
+		Cliente clienteConsultado = clienteDao.consultar(cliente.getCpf());
+		Assert.assertNotNull(clienteConsultado);
+		Assert.assertEquals("Casado", clienteConsultado.getEstadoCivil());
+
+		clienteDao.excluir(cliente.getCpf());
+	}
 }
